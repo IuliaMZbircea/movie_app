@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '/helpers/constants/constants.dart';
-import 'package:flutter/cupertino.dart';
 
 class MovieCellView extends StatelessWidget {
   final String imagePath;
@@ -20,13 +19,13 @@ class MovieCellView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.0,
+      height: 130.0,
       padding: const EdgeInsets.only(top: midSpace),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Image.asset(imagePath),
-          const SizedBox(width: 100.0),
+          const SizedBox(width: midSpace),
           initRightSideOfCell(),
         ],
       ),

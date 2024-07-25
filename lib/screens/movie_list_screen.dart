@@ -30,7 +30,7 @@ class _MovieListScreen extends State<MovieListScreen> {
         ),
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 150.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
         itemCount: movies.length,
         itemBuilder: (context, index){
           var item = movies[index];
