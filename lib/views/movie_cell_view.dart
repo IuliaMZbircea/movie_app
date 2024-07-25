@@ -19,7 +19,7 @@ class MovieCellView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 130.0,
+      height: 200.0,
       padding: const EdgeInsets.only(top: midSpace),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
