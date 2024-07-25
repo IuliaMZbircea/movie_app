@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/managers/authentication_manager.dart';
 import '../helpers/constants/constants.dart';
 import '../helpers/constants/routes_name.dart';
 import '../helpers/constants/strings-en.dart';
+import '../managers/authentication_manager.dart';
 
 class CredentialsView extends StatefulWidget {
   final String screenTitle;
@@ -22,6 +24,8 @@ class CredentialsView extends StatefulWidget {
 
 class _LoginOrSignupView extends State<CredentialsView> {
   final TextEditingController controller = TextEditingController();
+  String userEmail = "";
+  String userPassword = "";
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
         if (!widget.isSignupScreen) setSubtitleForLogInView(),
         const SizedBox(height: 10.0),
         const Text(
-          email,
+          emailAddress,
           style: TextStyle(
             fontSize: 12.0,
             color: Color.fromARGB(179, 42, 22, 138),
@@ -49,8 +53,9 @@ class _LoginOrSignupView extends State<CredentialsView> {
           ),
         ),
         TextField(
-          controller: controller,
-          onChanged: (String value) {},
+          onChanged: (newValue) {
+            userEmail = newValue;
+          },
         ),
         const SizedBox(height: 10.0),
         const Text(
@@ -61,15 +66,23 @@ class _LoginOrSignupView extends State<CredentialsView> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const TextField(
+        TextField(
+          onChanged: (newValue) {
+            userPassword = newValue;
+          },
           obscureText: true,
         ),
         const SizedBox(height: 10.0),
         TextButton(
-          onPressed: () => Navigator.pushNamed(
-            context,
-            movieListRouteName,
-          ),
+          onPressed: () {
+            bool isValid = validateFields();
+            if (isValid) {
+              Navigator.pushNamed(
+                context,
+                movieListRouteName,
+              );
+            }
+          },
           style: TextButton.styleFrom(
             backgroundColor: Color.fromARGB(179, 42, 22, 138),
             fixedSize: const Size.fromHeight(buttonHeight),
@@ -91,7 +104,9 @@ class _LoginOrSignupView extends State<CredentialsView> {
           children: [
             const Spacer(),
             Text(
-              widget.isSignupScreen ? connectWithSocialMediaString : noAccountString,
+              widget.isSignupScreen
+                  ? connectWithSocialMediaString
+                  : noAccountString,
               style: headerTextStyle.copyWith(
                 color: widget._textColor,
                 fontWeight: FontWeight.w500,
@@ -103,7 +118,8 @@ class _LoginOrSignupView extends State<CredentialsView> {
                 onPressed: () => Navigator.pushNamed(context, signUpRouteName),
                 child: Text(
                   signUpString,
-                  style: headerTextStyle.copyWith(color: Color.fromARGB(179, 42, 22, 138)),
+                  style: headerTextStyle.copyWith(
+                      color: Color.fromARGB(179, 42, 22, 138)),
                 ),
               ),
           ],
@@ -124,5 +140,39 @@ class _LoginOrSignupView extends State<CredentialsView> {
         ),
       ],
     );
+  }
+
+  void authenticateUser() {
+    AuthenticationManager authenticationManager = AuthenticationManager();
+    if (widget.isSignupScreen) {
+      authenticationManager.signUpUser(emailAddress, password);
+    } else {
+      authenticationManager.logInUser(emailAddress, password);
+    }
+  }
+
+  bool validateFields() {
+    if (userEmail.isNotEmpty && userPassword.isNotEmpty) {
+      authenticateUser();
+      return true;
+    } else {
+      SnackBar initSnackBar = const SnackBar(
+        content: Text("Email and Password are mandatory."),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(initSnackBar);
+    }
+
+    if(userEmail.isNotEmpty && userPassword.length >=8){
+      authenticateUser();
+      return true;
+    } else {
+      SnackBar initSnackBar = const SnackBar(
+        content: Text("Password should have at least 8 characters and should include special characters."),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(initSnackBar);
+    }
+    return false;
   }
 }

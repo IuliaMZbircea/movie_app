@@ -19,7 +19,7 @@ class _MovieListScreen extends State<MovieListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading : false,
+        automaticallyImplyLeading : true,
         backgroundColor: Color.fromARGB(179, 42, 22, 138),
         title: const Text(
           'Movies',
