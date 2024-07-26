@@ -8,7 +8,8 @@ class MovieCellView extends StatelessWidget {
   final String movieLanguage;
   final String movieReleaseDate;
 
-  const MovieCellView({super.key, 
+  const MovieCellView({
+    super.key, 
     required this.imagePath,
     required this.movieTitle,
     required this.movieRating,
@@ -19,60 +20,64 @@ class MovieCellView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.0,
+      height: 250.0,
       padding: const EdgeInsets.only(top: midSpace),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(imagePath),
+          SizedBox(
+            width: 170,
+            height: 350,
+            child: Image.network(imagePath, fit: BoxFit.cover),
+          ),
           const SizedBox(width: midSpace),
-          initRightSideOfCell(),
+          Expanded(
+            child: initRightSideOfCell(),
+          ),
         ],
       ),
     );
   }
 
   Widget initRightSideOfCell() {
-    return Flexible(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            movieTitle,
-            textAlign: TextAlign.start,
-            overflow: TextOverflow.visible,
-            style: const TextStyle(
-                fontSize: titleFontSize, fontWeight: FontWeight.w500
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          movieTitle,
+          textAlign: TextAlign.start,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+              fontSize: titleFontSize, fontWeight: FontWeight.w500
           ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.start,
+        ),
+        const SizedBox(height: 5.0),
+        Row(
           children: [
-            const Icon(IconData(0xe5f9, fontFamily: 'MaterialIcons'),
-            color: Colors.amberAccent,
+            const Icon(
+              IconData(0xe5f9, fontFamily: 'MaterialIcons'),
+              color: Colors.amberAccent,
             ),
-            const SizedBox(
-              width: 5.0,
-            ),
+            const SizedBox(width: 5.0),
             Text(
-              movieRating,style: const TextStyle(fontSize: 15.0),
+              movieRating,
+              style: const TextStyle(fontSize: 20.0),
             ),
-
           ],
-          ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          Text(movieLanguage),
-          const SizedBox(
-            height: 5.0
-            ),
-            Text(movieReleaseDate)
-        ],
-      ),
+        ),
+        const SizedBox(height: 5.0),
+        Text(
+          movieLanguage,
+          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
+        ),
+        const SizedBox(height: 5.0),
+        Text(
+          movieReleaseDate,
+          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
+        ),
+      ],
     );
   }
 }

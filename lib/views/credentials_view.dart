@@ -150,9 +150,9 @@ class _LoginOrSignupView extends State<CredentialsView> {
   Future<void> authenticateUser() async {
     AuthenticationManager authenticationManager = AuthenticationManager();
     if (widget.isSignupScreen) {
-      await authenticationManager.signUpUser(userEmail, userPassword);
+      await authenticationManager.signUpUser(userEmail, userPassword, context, () {});
     } else {
-      await authenticationManager.logInUser(userEmail, userPassword);
+      await authenticationManager.logInUser(userEmail, userPassword, context, () {});
     }
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const double titleFontSize = 18.0;
+const double titleFontSize = 28.0;
 const double buttonHeight = 50.0;
 const double buttonRadius = 8.0;
 const double midSpace = 16.0;
