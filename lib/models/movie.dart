@@ -1,6 +1,3 @@
-// movie.dart
-import 'dart:convert';
-
 class Movie {
   final bool adult;
   final int id;

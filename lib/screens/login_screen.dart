@@ -15,7 +15,7 @@ class LogInScreen extends StatelessWidget {
           ),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: CredentialsView(
+            child: const CredentialsView(
               screenTitle: loginString,
               buttonTitle: loginButtonTitle,
             ),

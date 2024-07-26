@@ -1,4 +1,3 @@
-// ignore: file_names
 const String loginString = "Log In";
 const String loginButtonTitle = "Log In";
 

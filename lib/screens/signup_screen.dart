@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../helpers/constants/constants.dart';
 import '../helpers/constants/strings-en.dart';
 import '../views/credentials_view.dart';
 
@@ -16,7 +15,7 @@ class SignUpScreen extends StatelessWidget {
           ),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: CredentialsView(
+            child: const CredentialsView(
               screenTitle: signUpString,
               buttonTitle: signUpButtonTitle,
             ),

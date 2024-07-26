@@ -3,7 +3,6 @@ import 'package:movie_app/managers/authentication_manager.dart';
 import '../helpers/constants/constants.dart';
 import '../helpers/constants/routes_name.dart';
 import '../helpers/constants/strings-en.dart';
-import '../managers/authentication_manager.dart';
 
 class CredentialsView extends StatefulWidget {
   final String screenTitle;
@@ -11,7 +10,7 @@ class CredentialsView extends StatefulWidget {
   final bool isSignupScreen;
   final Color _textColor;
 
-  CredentialsView({
+  const CredentialsView({
     super.key,
     required this.screenTitle,
     required this.buttonTitle,
@@ -23,7 +22,8 @@ class CredentialsView extends StatefulWidget {
 }
 
 class _LoginOrSignupView extends State<CredentialsView> {
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   String userEmail = "";
   String userPassword = "";
 
@@ -33,7 +33,6 @@ class _LoginOrSignupView extends State<CredentialsView> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        // Log In title
         Text(
           widget.screenTitle,
           style: const TextStyle(
@@ -53,6 +52,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
           ),
         ),
         TextField(
+          controller: emailController,
           onChanged: (newValue) {
             userEmail = newValue;
           },
@@ -67,6 +67,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
           ),
         ),
         TextField(
+          controller: passwordController,
           onChanged: (newValue) {
             userPassword = newValue;
           },
@@ -74,17 +75,22 @@ class _LoginOrSignupView extends State<CredentialsView> {
         ),
         const SizedBox(height: 10.0),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
             bool isValid = validateFields();
             if (isValid) {
-              Navigator.pushNamed(
-                context,
-                movieListRouteName,
-              );
+              try {
+                await authenticateUser();
+                Navigator.pushNamed(context, movieListRouteName);
+              } catch (e) {
+                SnackBar errorSnackBar = SnackBar(
+                  content: Text(e.toString()),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
+              }
             }
           },
           style: TextButton.styleFrom(
-            backgroundColor: Color.fromARGB(179, 42, 22, 138),
+            backgroundColor: const Color.fromARGB(179, 42, 22, 138),
             fixedSize: const Size.fromHeight(buttonHeight),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -98,7 +104,6 @@ class _LoginOrSignupView extends State<CredentialsView> {
           ),
         ),
         SizedBox(height: widget.isSignupScreen ? 20.0 : 8.0),
-        // Don't have an account
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -119,7 +124,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
                 child: Text(
                   signUpString,
                   style: headerTextStyle.copyWith(
-                      color: Color.fromARGB(179, 42, 22, 138)),
+                      color: const Color.fromARGB(179, 42, 22, 138)),
                 ),
               ),
           ],
@@ -142,35 +147,32 @@ class _LoginOrSignupView extends State<CredentialsView> {
     );
   }
 
-  void authenticateUser() {
+  Future<void> authenticateUser() async {
     AuthenticationManager authenticationManager = AuthenticationManager();
     if (widget.isSignupScreen) {
-      authenticationManager.signUpUser(emailAddress, password);
+      await authenticationManager.signUpUser(userEmail, userPassword);
     } else {
-      authenticationManager.logInUser(emailAddress, password);
+      await authenticationManager.logInUser(userEmail, userPassword);
     }
   }
 
   bool validateFields() {
     if (userEmail.isNotEmpty && userPassword.isNotEmpty) {
-      authenticateUser();
       return true;
     } else {
       SnackBar initSnackBar = const SnackBar(
         content: Text("Email and Password are mandatory."),
       );
-
       ScaffoldMessenger.of(context).showSnackBar(initSnackBar);
     }
 
-    if(userEmail.isNotEmpty && userPassword.length >=8){
-      authenticateUser();
+    if (userEmail.isNotEmpty && userPassword.length >= 8) {
       return true;
     } else {
       SnackBar initSnackBar = const SnackBar(
-        content: Text("Password should have at least 8 characters and should include special characters."),
+        content: Text(
+            "Password should have at least 8 characters and should include special characters."),
       );
-
       ScaffoldMessenger.of(context).showSnackBar(initSnackBar);
     }
     return false;
