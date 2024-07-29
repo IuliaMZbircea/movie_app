@@ -1,25 +1,41 @@
 import 'dart:convert';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/helpers/constants/app_urls.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_app/managers/hive_manager.dart';
 import '../models/movie.dart';
 
 List<Movie> parseMovies(String responseBody) {
+  final parsed =
+      jsonDecode(responseBody)['results'].cast<Map<String, dynamic>>();
 
-  final parsed = jsonDecode(responseBody)['results'].cast<Map<String, dynamic>>();
-  return parsed.map<Movie>((json) => Movie.fromJson(json)).toList();
-}
+  List<Movie> movies =
+      parsed.map<Movie>((json) => Movie.fromJson(json)).toList();
 
-
-
-Future<List<Movie>> getMovies() async{
-  Uri url = Uri.parse(AppUrls.movieListURL + '1');
-  var response = await http.get(url);
-  if(response.statusCode == 200){
-    return parseMovies(response.body);
+//add movies in local db based on uniqueness over ID by overwritting if the movie already exists.
+  for (var movie in movies) {
+    HiveManager.instance.movieBox.put(movie.id, movie);
   }
-  return [];
+  
+  return movies;
 }
 
+Future<List<Movie>> getMovies({int page = 1}) async {
+  Uri url = Uri.parse(AppUrls.movieListURL + page.toString());
+  bool hasInternetConnection = await InternetConnectionChecker().hasConnection;
+
+  if (hasInternetConnection) {
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      return parseMovies(response.body);
+    } else {
+      return <Movie>[];
+    }
+  } else {
+    List<Movie> listMovies = HiveManager.instance.movieBox.values.toList();
+    return listMovies;
+  }
+}
 
 
 

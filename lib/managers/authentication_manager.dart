@@ -1,21 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants/strings-en.dart';
+import 'package:movie_app/managers/user_manager.dart';
+import 'package:movie_app/screens/login_screen.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 
 class AuthenticationManager {
+  static final UserManager _userManager = UserManager();
+
   Future logInUser(
-    String emailAddress,
+    String email,
     String password,
     BuildContext context,
     Function callBack,
   ) async {
     try {
       var response = await _auth.signInWithEmailAndPassword(
-          email: emailAddress, password: password);
+          email: email, password: password);
+      _userManager.saveLogInUser(
+        response.user?.email ?? '',
+        response.user?.uid ?? '',
+      );
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -34,14 +42,14 @@ class AuthenticationManager {
   }
 
   Future signUpUser(
-    String emailAddress,
+    String email,
     String password,
     BuildContext context,
     Function callBack,
   ) async {
     try {
       var response = await _auth.createUserWithEmailAndPassword(
-        email: emailAddress,
+        email: email,
         password: password,
       );
       Navigator.pushAndRemoveUntil(
@@ -49,7 +57,6 @@ class AuthenticationManager {
           MaterialPageRoute<void>(
               builder: (BuildContext context) => const MovieListScreen()),
           (route) => false);
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw 'The password provided is too weak.';
@@ -70,11 +77,13 @@ class AuthenticationManager {
     sharedPreferences.setString('emailAddress', emailAddress);
   }
 
-  bool isLoggedIn(SharedPreferences sharedPrefs){
+  bool isLoggedIn(SharedPreferences sharedPrefs) {
     return sharedPrefs.getString('emailAddress') != null;
   }
 
-  Future singOut() async {
+  Future signOut(BuildContext context) async {
     await _auth.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LogInScreen()));
   }
 }
