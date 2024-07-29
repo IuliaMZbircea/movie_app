@@ -120,9 +120,9 @@ class _LoginOrSignupView extends State<CredentialsView> {
             ),
             if (!widget.isSignupScreen)
               TextButton(
-                onPressed: () => Navigator.pushNamed(context, signUpRouteName),
+                onPressed: () => Navigator.pushNamed(context, logInRouteName),
                 child: Text(
-                  signUpString,
+                  loginString,
                   style: headerTextStyle.copyWith(
                       color: const Color.fromARGB(179, 42, 22, 138)),
                 ),

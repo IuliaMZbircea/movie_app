@@ -83,7 +83,10 @@ class AuthenticationManager {
 
   Future signOut(BuildContext context) async {
     await _auth.signOut();
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const LogInScreen()));
+    Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute<void>(
+              builder: (BuildContext context) => const LogInScreen()),
+          (route) => false);
   }
 }
