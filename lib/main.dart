@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_app/managers/hive_manager.dart';
+import 'package:movie_app/screens/movie_details_screen.dart';
+import 'package:movie_app/screens/signout_screen.dart';
+import 'package:movie_app/screens/watchlist_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './screens/login_screen.dart';
 import './screens/movie_list_screen.dart';
@@ -13,9 +16,13 @@ SharedPreferences? sharedPrefs;
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
+
   await Hive.initFlutter('database');
+
   sharedPrefs = await SharedPreferences.getInstance();
+  
   await HiveManager.instance.initHiveManager();
 
   runApp(const MyApp());
@@ -34,6 +41,9 @@ class MyApp extends StatelessWidget {
         logInRouteName: (context) => const LogInScreen(),
         signUpRouteName: (context) => const SignUpScreen(),
         movieListRouteName: (context) => const MovieListScreen(),
+        movieDetailsRouteName: (context) => const MovieDetailsScreen(),
+        signOutRouteName: (context) => const SignOutScreen(),
+        watchListRouteName: (context) => const WatchListScreen(),
       },
     );
   }

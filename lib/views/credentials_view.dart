@@ -8,14 +8,13 @@ class CredentialsView extends StatefulWidget {
   final String screenTitle;
   final String buttonTitle;
   final bool isSignupScreen;
-  final Color _textColor;
 
   const CredentialsView({
     super.key,
     required this.screenTitle,
     required this.buttonTitle,
     this.isSignupScreen = false,
-  }) : _textColor = isSignupScreen ? Colors.grey : Colors.black;
+  });
 
   @override
   _LoginOrSignupView createState() => _LoginOrSignupView();
@@ -35,21 +34,13 @@ class _LoginOrSignupView extends State<CredentialsView> {
       children: <Widget>[
         Text(
           widget.screenTitle,
-          style: const TextStyle(
-            fontSize: titleFontSize,
-            color: Color.fromARGB(179, 42, 22, 138),
-            fontWeight: FontWeight.w500,
-          ),
+          style: signUpOrLogInTitleStyle
         ),
-        if (!widget.isSignupScreen) setSubtitleForLogInView(),
-        const SizedBox(height: 10.0),
+        setSubtitleForAuthView(),
+        customSpacer,
         const Text(
           emailAddress,
-          style: TextStyle(
-            fontSize: 12.0,
-            color: Color.fromARGB(179, 42, 22, 138),
-            fontWeight: FontWeight.w500,
-          ),
+          style: credentialTextBoxesTitles,
         ),
         TextField(
           controller: emailController,
@@ -57,14 +48,10 @@ class _LoginOrSignupView extends State<CredentialsView> {
             userEmail = newValue;
           },
         ),
-        const SizedBox(height: 10.0),
+        customSpacer,
         const Text(
           password,
-          style: TextStyle(
-            fontSize: 12.0,
-            color: Color.fromARGB(179, 42, 22, 138),
-            fontWeight: FontWeight.w500,
-          ),
+          style: credentialTextBoxesTitles,
         ),
         TextField(
           controller: passwordController,
@@ -73,7 +60,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
           },
           obscureText: true,
         ),
-        const SizedBox(height: 10.0),
+        customSpacerBig,
         TextButton(
           onPressed: () async {
             bool isValid = validateFields();
@@ -90,7 +77,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
             }
           },
           style: TextButton.styleFrom(
-            backgroundColor: const Color.fromARGB(179, 42, 22, 138),
+            backgroundColor: redColor,
             fixedSize: const Size.fromHeight(buttonHeight),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -100,32 +87,29 @@ class _LoginOrSignupView extends State<CredentialsView> {
           ),
           child: Text(
             widget.buttonTitle,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white, fontSize: 18.0),
           ),
         ),
-        SizedBox(height: widget.isSignupScreen ? 20.0 : 8.0),
+        SizedBox(height: widget.isSignupScreen ? 50.0 : 10.0),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
+
             Text(
               widget.isSignupScreen
                   ? connectWithSocialMediaString
                   : noAccountString,
-              style: headerTextStyle.copyWith(
-                color: widget._textColor,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.end,
+              style: subheaderTextStyle,
+              textAlign: TextAlign.center,
             ),
             if (!widget.isSignupScreen)
               TextButton(
-                onPressed: () => Navigator.pushNamed(context, logInRouteName),
-                child: Text(
-                  loginString,
-                  style: headerTextStyle.copyWith(
-                      color: const Color.fromARGB(179, 42, 22, 138)),
-                ),
+                onPressed: () => Navigator.pushNamed(context, signUpRouteName),
+                child: const Text(
+                  signUpString,
+                  style: headerTextStyle,
+                )
               ),
           ],
         ),
@@ -133,7 +117,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
     );
   }
 
-  Widget setSubtitleForLogInView() {
+  Widget setSubtitleForAuthView() {
     return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -141,7 +125,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
         SizedBox(height: midSpace),
         Text(
           emailAndPasswordString,
-          style: headerTextStyle,
+          style: subheaderTextStyle,
         ),
       ],
     );

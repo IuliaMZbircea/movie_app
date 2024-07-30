@@ -41,6 +41,7 @@ class MovieCellView extends StatelessWidget {
   }
 
   Widget initRightSideOfCell() {
+    
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

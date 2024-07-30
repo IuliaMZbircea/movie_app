@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/helpers/constants/routes_name.dart';
 import '/helpers/constants/constants.dart';
 import '/managers/movie_manager.dart';
 import '/views/movie_cell_view.dart';
@@ -10,31 +11,24 @@ class MovieListScreen extends StatefulWidget {
   @override
   _MovieListScreen createState() => _MovieListScreen();
 }
+
 AuthenticationManager authenticationManager = AuthenticationManager();
 
 class _MovieListScreen extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          authenticationManager.signOut(context);
-        },
-        backgroundColor: const Color.fromARGB(66, 223, 39, 39),
-        child: const Icon(Icons.logout_rounded),
-      ),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: const Color.fromARGB(173, 238, 238, 238),
+        automaticallyImplyLeading: false,
+        backgroundColor: appBarColor,
         title: const Text(
           'Movies',
           style: TextStyle(
             fontSize: titleFontSize,
-            color: Color.fromARGB(255, 35, 34, 34),
+            color: redColor,
           ),
         ),
-        
       ),
       body: FutureBuilder(
         future: getMovies(),
@@ -64,6 +58,47 @@ class _MovieListScreen extends State<MovieListScreen> {
             );
           }
         },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 10.0,
+        color: appBarColor,
+        clipBehavior: Clip.antiAlias,
+        child: SizedBox(
+          height: kBottomNavigationBarHeight,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(
+                  Icons.favorite_border_outlined,
+                  color: redColor,
+                  size: 35.0,
+                ),
+                onPressed: () =>
+                    Navigator.pushNamed(context, watchListRouteName),
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.home,
+                  color: redColor,
+                  size: 35.0,
+                ),
+                onPressed: () =>
+                    Navigator.pushNamed(context, movieListRouteName),
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.account_circle_outlined,
+                  color: redColor,
+                  size: 35.0,
+                ),
+                onPressed: () => Navigator.pushNamed(context, signOutRouteName),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
