@@ -10,5 +10,6 @@ const String connectWithSocialMediaString = "-----------------------------------
 
 //Login & Signup Screens
 const String emailAddress = "Email";
+const String name = "Name";
 const String password = "Password";
 const String emailAndPasswordString = "Enter your Email and Password";

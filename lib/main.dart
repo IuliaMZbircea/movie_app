@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_app/managers/hive_manager.dart';
 import 'package:movie_app/screens/movie_details_screen.dart';
-import 'package:movie_app/screens/signout_screen.dart';
+import 'package:movie_app/screens/profile_screen.dart';
 import 'package:movie_app/screens/watchlist_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './screens/login_screen.dart';

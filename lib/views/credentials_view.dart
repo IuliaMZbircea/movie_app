@@ -23,8 +23,10 @@ class CredentialsView extends StatefulWidget {
 class _LoginOrSignupView extends State<CredentialsView> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   String userEmail = "";
   String userPassword = "";
+  String userName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +34,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(
-          widget.screenTitle,
-          style: signUpOrLogInTitleStyle
-        ),
+        Text(widget.screenTitle, style: signUpOrLogInTitleStyle),
         setSubtitleForAuthView(),
         customSpacer,
         const Text(
@@ -95,7 +94,8 @@ class _LoginOrSignupView extends State<CredentialsView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Spacer(),
-
+            
+            customSpacer,
             Text(
               widget.isSignupScreen
                   ? connectWithSocialMediaString
@@ -103,14 +103,38 @@ class _LoginOrSignupView extends State<CredentialsView> {
               style: subheaderTextStyle,
               textAlign: TextAlign.center,
             ),
+          //   SignInButton(
+          //   Buttons.google,
+          //   onPressed: () {
+          //     _showButtonPressDialog(context, 'Google');
+          //   },
+          // ),
+          customSpacer,
+            Text(
+              widget.isSignupScreen
+                  ? noAccountString
+                  : connectWithSocialMediaString,
+              style: subheaderTextStyle,
+              textAlign: TextAlign.center,
+            ),
+
             if (!widget.isSignupScreen)
               TextButton(
-                onPressed: () => Navigator.pushNamed(context, signUpRouteName),
-                child: const Text(
-                  signUpString,
-                  style: headerTextStyle,
-                )
-              ),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, signUpRouteName),
+                  child: const Text(
+                    signUpString,
+                    style: headerTextStyle,
+                  )),
+            if(widget.isSignupScreen)
+              TextButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, logInRouteName),
+                  child: const Text(
+                    signUpString,
+                    style: headerTextStyle,
+                  )),
+            
           ],
         ),
       ],
@@ -134,9 +158,11 @@ class _LoginOrSignupView extends State<CredentialsView> {
   Future<void> authenticateUser() async {
     AuthenticationManager authenticationManager = AuthenticationManager();
     if (widget.isSignupScreen) {
-      await authenticationManager.signUpUser(userEmail, userPassword, context, () {});
+      await authenticationManager.signUpUser(
+          userEmail, userPassword, context, () {});
     } else {
-      await authenticationManager.logInUser(userEmail, userPassword, context, () {});
+      await authenticationManager.logInUser(
+          userEmail, userPassword, context, () {});
     }
   }
 

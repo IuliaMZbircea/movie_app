@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants/constants.dart';
+import 'package:movie_app/helpers/constants/strings-en.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
 
 import '../helpers/constants/routes_name.dart';
@@ -27,16 +29,7 @@ class _SignOutScreenState extends State<SignOutScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: const Column(
-            children: [
-              Text('logout'),
-              
-            ],
-          ),
-        ),
-      ),
+      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           authenticationManager.signOut(context);
