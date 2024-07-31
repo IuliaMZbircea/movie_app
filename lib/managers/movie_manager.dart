@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/helpers/constants/app_urls.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_app/helpers/constants/routes_name.dart';
 import 'package:movie_app/managers/hive_manager.dart';
 import '../models/movie.dart';
 
@@ -16,7 +17,7 @@ List<Movie> parseMovies(String responseBody) {
   for (var movie in movies) {
     HiveManager.instance.movieBox.put(movie.id, movie);
   }
-  
+
   return movies;
 }
 
@@ -36,6 +37,7 @@ Future<List<Movie>> getMovies({int page = 1}) async {
     return listMovies;
   }
 }
+
 
 
 

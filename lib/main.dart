@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         signUpRouteName: (context) => const SignUpScreen(),
         movieListRouteName: (context) => const MovieListScreen(),
         movieDetailsRouteName: (context) => const MovieDetailsScreen(),
-        signOutRouteName: (context) => const SignOutScreen(),
+        profileRouteName: (context) => const ProfileScreen(),
         watchListRouteName: (context) => const WatchListScreen(),
       },
     );

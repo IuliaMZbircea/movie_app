@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movie_app/helpers/constants/strings-en.dart';
 import 'package:movie_app/managers/user_manager.dart';
 import 'package:movie_app/screens/login_screen.dart';
@@ -92,26 +90,9 @@ class AuthenticationManager {
           (route) => false);
   }
 
+  
 
 
-Future<dynamic> signInWithGoogle() async {
-  try {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  } on FirebaseAuthException catch (e) {
-    Fluttertoast.showToast(
-      msg: e.toString(),
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.SNACKBAR,
-      backgroundColor: Colors.black54,
-      textColor: Colors.white,
-      fontSize: 14.0,
-    );
-  }
-}
+
+
 }

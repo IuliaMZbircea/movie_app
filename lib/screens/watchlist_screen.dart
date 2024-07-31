@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants/constants.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
+import 'package:movie_app/screens/profile_screen.dart';
 
-import '../helpers/constants/routes_name.dart';
 
 class WatchListScreen extends StatefulWidget {
   const WatchListScreen({super.key});
@@ -28,9 +28,17 @@ class _WatchListScreenState extends State<WatchListScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, movieListRouteName),
+        onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const MovieListScreen()),
+                    (route) => false),
         backgroundColor: redColor,
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          color: appBarColor,
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
@@ -49,17 +57,25 @@ class _WatchListScreenState extends State<WatchListScreen> {
                   color: redColor,
                   size: 35.0,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, watchListRouteName),
+                onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const WatchListScreen()),
+                    (route) => false),
               ),
               IconButton(
                 icon: const Icon(
                   Icons.home_outlined,
                   color: redColor,
-                  size: 40.0,
+                  size: 35.0,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, movieListRouteName),
+               onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const MovieListScreen()),
+                    (route) => false),
               ),
               IconButton(
                 icon: const Icon(
@@ -67,7 +83,12 @@ class _WatchListScreenState extends State<WatchListScreen> {
                   color: redColor,
                   size: 35.0,
                 ),
-                onPressed: () => Navigator.pushNamed(context, signOutRouteName),
+                onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const ProfileScreen()),
+                    (route) => false),
               )
             ],
           ),

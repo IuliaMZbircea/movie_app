@@ -2,6 +2,7 @@
 const String loginString = "Log In";
 const String loginButtonTitle = "Log In";
 const String noAccountString = "Don't have an account?";
+const String hasAccountString = "Already have an account?";
 
 //Sign Up Screen
 const String signUpString = "Sign Up";

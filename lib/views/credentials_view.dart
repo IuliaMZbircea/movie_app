@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:movie_app/managers/authentication_manager.dart';
 import '../helpers/constants/constants.dart';
 import '../helpers/constants/routes_name.dart';
 import '../helpers/constants/strings-en.dart';
+
 
 class CredentialsView extends StatefulWidget {
   final String screenTitle;
@@ -27,6 +29,9 @@ class _LoginOrSignupView extends State<CredentialsView> {
   String userEmail = "";
   String userPassword = "";
   String userName = "";
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,32 +97,14 @@ class _LoginOrSignupView extends State<CredentialsView> {
         SizedBox(height: widget.isSignupScreen ? 50.0 : 10.0),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(),
-            
-            customSpacer,
             Text(
               widget.isSignupScreen
                   ? connectWithSocialMediaString
                   : noAccountString,
               style: subheaderTextStyle,
-              textAlign: TextAlign.center,
             ),
-          //   SignInButton(
-          //   Buttons.google,
-          //   onPressed: () {
-          //     _showButtonPressDialog(context, 'Google');
-          //   },
-          // ),
-          customSpacer,
-            Text(
-              widget.isSignupScreen
-                  ? noAccountString
-                  : connectWithSocialMediaString,
-              style: subheaderTextStyle,
-              textAlign: TextAlign.center,
-            ),
-
             if (!widget.isSignupScreen)
               TextButton(
                   onPressed: () =>
@@ -126,15 +113,34 @@ class _LoginOrSignupView extends State<CredentialsView> {
                     signUpString,
                     style: headerTextStyle,
                   )),
-            if(widget.isSignupScreen)
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SignInButton(
+              Buttons.Google,
+              onPressed: () {},
+            )
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (widget.isSignupScreen)
+              const Text(
+                hasAccountString,
+                style: subheaderTextStyle,
+              ),
+            if (widget.isSignupScreen)
               TextButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, logInRouteName),
+                  onPressed: () => Navigator.pushNamed(context, logInRouteName),
                   child: const Text(
-                    signUpString,
+                    loginString,
                     style: headerTextStyle,
                   )),
-            
           ],
         ),
       ],

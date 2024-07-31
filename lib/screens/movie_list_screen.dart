@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants/routes_name.dart';
+import 'package:movie_app/screens/profile_screen.dart';
+import 'package:movie_app/screens/watchlist_screen.dart';
 import '/helpers/constants/constants.dart';
 import '/managers/movie_manager.dart';
 import '/views/movie_cell_view.dart';
@@ -76,8 +78,12 @@ class _MovieListScreen extends State<MovieListScreen> {
                   color: redColor,
                   size: 35.0,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, watchListRouteName),
+                onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const WatchListScreen()),
+                    (route) => false),
               ),
               IconButton(
                 icon: const Icon(
@@ -85,8 +91,12 @@ class _MovieListScreen extends State<MovieListScreen> {
                   color: redColor,
                   size: 35.0,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, movieListRouteName),
+               onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const MovieListScreen()),
+                    (route) => false),
               ),
               IconButton(
                 icon: const Icon(
@@ -94,7 +104,12 @@ class _MovieListScreen extends State<MovieListScreen> {
                   color: redColor,
                   size: 35.0,
                 ),
-                onPressed: () => Navigator.pushNamed(context, signOutRouteName),
+                onPressed: () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const ProfileScreen()),
+                    (route) => false),
               )
             ],
           ),

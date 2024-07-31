@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 //Font sizes
-const double titleFontSize = 28.0;
+const double titleFontSize = 30.0;
+const double movieFontSize = 27.0;
 const double logInOrSignUpFontSize = 32.0;
 
 //Color pallete
