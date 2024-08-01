@@ -12,10 +12,10 @@ class UserManager {
     await sharedPrefs?.setString('user', encodedData);
     await sharedPrefs?.setBool('isLogInUser', true);
 
-    bool isUserLoggedIn(){
+  }
+  bool isUserLoggedIn(){
       var response = sharedPrefs?.getBool('isLogInUser') ?? false;
 
       return response;
     }
-  }
 }

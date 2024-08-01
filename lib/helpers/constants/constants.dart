@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 const double titleFontSize = 30.0;
 const double movieFontSize = 27.0;
 const double logInOrSignUpFontSize = 32.0;
+const double movieTitleFontSize = 34.0;
+const double movieOverviewFontSize = 20.0;
+const double movieRatingFontSize = 22.0;
+const double movieVoteCountFontSize = 12.0;
+const double movieFavouriteIconSize = 28.0;
 
 //Color pallete
-const redColor = Color.fromARGB(179, 158, 31, 31);
+const redColor = Color.fromARGB(173, 238, 238, 238);
 const greyColor = Color.fromARGB(179, 145, 121, 121);
-const appBarColor = const Color.fromARGB(173, 238, 238, 238);
+const appBarColor = Colors.black;
 
 //credentials navigation/validation buttons
 const double buttonHeight = 50.0;

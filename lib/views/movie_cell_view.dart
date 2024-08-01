@@ -14,7 +14,7 @@ class MovieCellView extends StatelessWidget {
   final String movieLanguage;
   final String movieReleaseDate;
 
-  const MovieCellView({
+   const MovieCellView({
     super.key,
     required this.imagePath,
     required this.movieTitle,
@@ -29,6 +29,7 @@ class MovieCellView extends StatelessWidget {
     double _width = size.width / 2.8;
     double _height = size.height / 3.8;
     return Container(
+      color: Colors.black,
       height: _height,
       padding: const EdgeInsets.only(top: midSpace),
       child: Row(
@@ -70,6 +71,7 @@ class MovieCellView extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
           style: const TextStyle(
+            color: redColor,
             fontSize: movieFontSize,
             fontWeight: FontWeight.w500,
           ),
@@ -84,19 +86,21 @@ class MovieCellView extends StatelessWidget {
             const SizedBox(width: 5.0),
             Text(
               formattedRating,
-              style: const TextStyle(fontSize: 20.0),
+              style: const TextStyle(fontSize: 20.0, color: redColor),
             ),
           ],
         ),
         const SizedBox(height: 5.0),
         Text(
           'Original Language: $movieLanguage',
-          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
+          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: redColor),
         ),
+        
+
         const SizedBox(height: 5.0),
         Text(
           'Release Date: $formattedDate',
-          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400),
+          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: redColor),
         ),
         const SizedBox(height: 5.0),
         ValueListenableBuilder<bool>(
@@ -106,7 +110,7 @@ class MovieCellView extends StatelessWidget {
               onPressed: () {
                 _isFavourite.value = !_isFavourite.value;
               },
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.black,
               foregroundColor: isFavourite ? Colors.red : appBarColor,
               shape: const CircleBorder(),
               tooltip: 'Add to watchlist',

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants/constants.dart';
+import 'package:movie_app/helpers/constants/strings-en.dart';
+import 'package:movie_app/managers/authentication_manager.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
 import 'package:movie_app/screens/watchlist_screen.dart';
 
 import '../helpers/constants/routes_name.dart';
+
+
+AuthenticationManager authenticationManager = AuthenticationManager();
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,34 +21,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: appBarColor,
         title: const Text(
-          'Profile',
+          profileScreenTitle,
           style: TextStyle(
             fontSize: titleFontSize,
             color: redColor,
           ),
         ),
       ),
-      body: (FloatingActionButton(
-        onPressed: () {
-          authenticationManager.signOut(context);
-        },
-        backgroundColor: appBarColor,
-        elevation: 0.0,
-        child: const Column(
-          children: [
-            Icon(
-              Icons.logout_rounded,
-              color: redColor,
-            ),
-
-          ],
+      body: Center(
+        child: 
+            ElevatedButton(
+              onPressed: () {
+                 authenticationManager.signOut(context);
+              }, child: const SizedBox(child:Text('Log Out'),),
+          
         ),
-      )),
+      ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 10.0,
@@ -84,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               IconButton(
                 icon: const Icon(
                   Icons.account_circle,
-                  color: redColor,
+                  color: Colors.white,
                   size: 35.0,
                 ),
                 onPressed: () => Navigator.pushAndRemoveUntil(

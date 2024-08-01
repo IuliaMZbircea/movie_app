@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants/constants.dart';
+import 'package:movie_app/helpers/constants/strings-en.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
 import 'package:movie_app/screens/profile_screen.dart';
 
@@ -15,12 +16,12 @@ class _WatchListScreenState extends State<WatchListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: appBarColor,
         title: const Text(
-          'My Watchlist',
+          watchListScreenTitle,
           style: TextStyle(
             fontSize: titleFontSize,
             color: redColor,
@@ -54,7 +55,7 @@ class _WatchListScreenState extends State<WatchListScreen> {
               IconButton(
                 icon: const Icon(
                   Icons.favorite,
-                  color: redColor,
+                  color: Colors.white,
                   size: 35.0,
                 ),
                 onPressed: () => Navigator.pushAndRemoveUntil(

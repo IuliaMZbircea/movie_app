@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_app/managers/hive_manager.dart';
 import 'package:movie_app/screens/movie_details_screen.dart';
@@ -25,8 +26,13 @@ Future<void> main() async {
   
   await HiveManager.instance.initHiveManager();
 
-  runApp(const MyApp());
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+      ),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

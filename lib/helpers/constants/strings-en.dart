@@ -14,3 +14,7 @@ const String emailAddress = "Email";
 const String name = "Name";
 const String password = "Password";
 const String emailAndPasswordString = "Enter your Email and Password";
+
+const String movieListScreenTitle = "Movies";
+const String watchListScreenTitle = "My Watchlist";
+const String profileScreenTitle = "Profile";
