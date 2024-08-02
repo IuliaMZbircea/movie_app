@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/helpers/constants/app_urls.dart';
 import 'package:http/http.dart' as http;
-import 'package:movie_app/helpers/constants/routes_name.dart';
 import 'package:movie_app/managers/hive_manager.dart';
+import 'package:movie_app/models/movie.dart';
 import '../models/movie.dart';
 
 List<Movie> parseMovies(String responseBody) {
@@ -33,7 +33,7 @@ Future<List<Movie>> getMovies({int page = 1}) async {
       return <Movie>[];
     }
   } else {
-    List<Movie> listMovies = HiveManager.instance.movieBox.values.toList();
+    List<Movie> listMovies = HiveManager.instance.movieBox.values.cast<Movie>().toList();
     return listMovies;
   }
 }

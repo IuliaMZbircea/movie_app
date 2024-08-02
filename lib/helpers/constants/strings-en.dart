@@ -7,7 +7,7 @@ const String hasAccountString = "Already have an account?";
 //Sign Up Screen
 const String signUpString = "Sign Up";
 const String signUpButtonTitle = "Sign Up";
-const String connectWithSocialMediaString = "-------------------------------------- or --------------------------------------";
+const String connectWithSocialMediaString =  "- or -";
 
 //Login & Signup Screens
 const String emailAddress = "Email";

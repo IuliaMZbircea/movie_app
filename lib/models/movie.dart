@@ -29,7 +29,7 @@ class Movie {
   @HiveField(11)
   final int voteCount;
 
-  const Movie({
+  Movie({
     required this.adult,
     required this.id,
     required this.originalLanguage,

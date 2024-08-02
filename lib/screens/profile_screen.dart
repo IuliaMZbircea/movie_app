@@ -5,9 +5,6 @@ import 'package:movie_app/managers/authentication_manager.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
 import 'package:movie_app/screens/watchlist_screen.dart';
 
-import '../helpers/constants/routes_name.dart';
-
-
 AuthenticationManager authenticationManager = AuthenticationManager();
 
 class ProfileScreen extends StatefulWidget {
@@ -63,7 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     context,
                     MaterialPageRoute<void>(
                         builder: (BuildContext context) =>
-                            const WatchListScreen()),
+                            const WatchlistScreen()),
                     (route) => false),
               ),
               IconButton(

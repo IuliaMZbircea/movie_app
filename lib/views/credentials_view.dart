@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:movie_app/helpers/constants/constants.dart';
+import 'package:movie_app/helpers/constants/routes_name.dart';
+import 'package:movie_app/helpers/constants/strings-en.dart';
 import 'package:movie_app/managers/authentication_manager.dart';
-import '../helpers/constants/constants.dart';
-import '../helpers/constants/routes_name.dart';
-import '../helpers/constants/strings-en.dart';
-
 
 class CredentialsView extends StatefulWidget {
   final String screenTitle;
@@ -30,14 +30,12 @@ class _LoginOrSignupView extends State<CredentialsView> {
   String userPassword = "";
   String userName = "";
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      
       children: <Widget>[
         Text(widget.screenTitle, style: signUpOrLogInTitleStyle),
         setSubtitleForAuthView(),
@@ -81,7 +79,7 @@ class _LoginOrSignupView extends State<CredentialsView> {
             }
           },
           style: TextButton.styleFrom(
-            backgroundColor: redColor,
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
             fixedSize: const Size.fromHeight(buttonHeight),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -107,23 +105,27 @@ class _LoginOrSignupView extends State<CredentialsView> {
             ),
             if (!widget.isSignupScreen)
               TextButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, signUpRouteName),
-                  child: const Text(
-                    signUpString,
-                    style: headerTextStyle,
-                  )),
+                onPressed: () => Navigator.pushNamed(context, signUpRouteName),
+                child: const Text(
+                  signUpString,
+                  style: headerTextStyle,
+                )),
           ],
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SignInButton(
-              Buttons.Google,
-              onPressed: () {},
-            )
-          ],
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SignInButton(
+                Buttons.GoogleDark,
+                onPressed: () {
+                  AuthenticationManager().signInWithGoogle(context);
+                },
+              ),
+            ],
+          ),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,11 +138,11 @@ class _LoginOrSignupView extends State<CredentialsView> {
               ),
             if (widget.isSignupScreen)
               TextButton(
-                  onPressed: () => Navigator.pushNamed(context, logInRouteName),
-                  child: const Text(
-                    loginString,
-                    style: headerTextStyle,
-                  )),
+                onPressed: () => Navigator.pushNamed(context, logInRouteName),
+                child: const Text(
+                  loginString,
+                  style: headerTextStyle,
+                )),
           ],
         ),
       ],

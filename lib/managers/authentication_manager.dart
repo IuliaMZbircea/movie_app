@@ -5,11 +5,48 @@ import 'package:movie_app/managers/user_manager.dart';
 import 'package:movie_app/screens/login_screen.dart';
 import 'package:movie_app/screens/movie_list_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 
 class AuthenticationManager {
   static final UserManager _userManager = UserManager();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      _userManager.saveLogInUser(
+        user?.email ?? '',
+        user?.uid ?? '',
+      );
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute<void>(builder: (BuildContext context) => const MovieListScreen()),
+        (route) => false,
+      );
+    } catch (e) {
+      print("Error signing in with Google: $e");
+      SnackBar errorSnackBar = SnackBar(
+        content: Text(e.toString()),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(errorSnackBar);
+    }
+  }
+
 
   Future logInUser(
     String email,

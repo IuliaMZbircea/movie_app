@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         movieListRouteName: (context) => const MovieListScreen(),
         movieDetailsRouteName: (context) => const MovieDetailsScreen(),
         profileRouteName: (context) => const ProfileScreen(),
-        watchListRouteName: (context) => const WatchListScreen(),
+        watchListRouteName: (context) => const WatchlistScreen(),
       },
     );
   }

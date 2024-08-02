@@ -1,44 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movie_app/helpers/constants/app_urls.dart';
 import 'package:movie_app/helpers/constants/routes_name.dart';
 import 'package:movie_app/helpers/constants/strings-en.dart';
 import 'package:movie_app/models/movie.dart';
 import 'package:movie_app/screens/profile_screen.dart';
 import 'package:movie_app/screens/watchlist_screen.dart';
 import '/helpers/constants/constants.dart';
-import '/managers/movie_manager.dart';
+import '../providers/movie_list_provider.dart';
 import '/views/movie_cell_view.dart';
-import 'package:http/http.dart' as http;
 
-final movieListProvider = StateProvider<List<Movie>>(((ref) => <Movie>[]));
-final selectedMovieProvider = StateProvider<Movie?>((ref) => null);
 
-final movieFetchProvider =
-    FutureProvider.family<List<Movie>, int>((ref, start) async {
-  Uri url = Uri.parse(AppUrls.movieListURL + start.toString());
-  var response = await http.get(url);
-
-  if (response.statusCode == 200) {
-    ref
-        .read(movieListProvider.notifier)
-        .state
-        .addAll(parseMovies(response.body));
-    return ref.watch(movieListProvider);
-  } else {
-    return <Movie>[];
-  }
-});
 
 class MovieListScreen extends ConsumerWidget {
   const MovieListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<List<Movie>> movieList = ref.watch(movieFetchProvider(1));
+    int page = 1;
+    AsyncValue<List<Movie>> movieList = ref.watch(movieFetchProvider(page));
     return Container(
-        color: Colors.black,
-        child: movieList.when(data: (List<Movie> movies) {
+      color: Colors.black,
+      child: movieList.when(
+        data: (List<Movie> movies) {
           return Scaffold(
             backgroundColor: Colors.black,
             appBar: AppBar(
@@ -57,8 +40,9 @@ class MovieListScreen extends ConsumerWidget {
               itemCount: movies.length,
               itemBuilder: (context, index) {
                 var item = movies[index];
+               
                 if (index == movies.length - 1) {
-                  movieList = ref.watch(movieFetchProvider(2));
+                  ref.watch(movieFetchProvider(page++));
                 }
                 return GestureDetector(
                   onTap: () {
@@ -67,17 +51,18 @@ class MovieListScreen extends ConsumerWidget {
                       context,
                       movieDetailsRouteName,
                       arguments: {
-                        "movieID": item.id,
+                        "id": item.id,
                       },
                     );
                   },
                   child: MovieCellView(
                     imagePath:
-                        'https://image.tmdb.org/t/p/w500${item.posterPath}', // Load from network
+                        'https://image.tmdb.org/t/p/w500${item.posterPath}',
                     movieTitle: item.title,
                     movieRating: item.voteAverage.toString(),
                     movieLanguage: item.originalLanguage,
                     movieReleaseDate: item.releaseDate,
+                    movieId: item.id,
                   ),
                 );
               },
@@ -99,12 +84,12 @@ class MovieListScreen extends ConsumerWidget {
                         color: redColor,
                         size: 35.0,
                       ),
-                      onPressed: () => Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const WatchListScreen()),
-                          (route) => false),
+                      onPressed: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WatchlistScreen(),
+                        ),
+                      ),
                     ),
                     IconButton(
                       icon: const Icon(
@@ -112,12 +97,12 @@ class MovieListScreen extends ConsumerWidget {
                         color: Colors.white,
                         size: 35.0,
                       ),
-                      onPressed: () => Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const MovieListScreen()),
-                          (route) => false),
+                      onPressed: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MovieListScreen(),
+                        ),
+                      ),
                     ),
                     IconButton(
                       icon: const Icon(
@@ -125,22 +110,22 @@ class MovieListScreen extends ConsumerWidget {
                         color: redColor,
                         size: 35.0,
                       ),
-                      onPressed: () => Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute<void>(
-                              builder: (BuildContext context) =>
-                                  const ProfileScreen()),
-                          (route) => false),
-                    )
+                      onPressed: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfileScreen(),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           );
-        }, error: (Object error, StackTrace stackTrace) {
-          return Container();
-        }, loading: () {
-          return const CircularProgressIndicator();
-        }));
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, stack) => Center(child: Text('Error: $err')),
+      ),
+    );
   }
 }

@@ -1,18 +1,18 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:movie_app/screens/movie_details_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movie_app/providers/watchlist_provider.dart';
 import '/helpers/constants/constants.dart';
 import 'package:intl/intl.dart';
 
-class MovieCellView extends StatelessWidget {
+class MovieCellView extends ConsumerWidget {
   final String imagePath;
   final String movieTitle;
   final String movieRating;
   final String movieLanguage;
   final String movieReleaseDate;
+  final int movieId;
 
    const MovieCellView({
     super.key,
@@ -21,13 +21,16 @@ class MovieCellView extends StatelessWidget {
     required this.movieRating,
     required this.movieLanguage,
     required this.movieReleaseDate,
+    required this.movieId,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Size size = MediaQuery.of(context).size;
     double _width = size.width / 2.8;
     double _height = size.height / 3.8;
+
+
     return Container(
       color: Colors.black,
       height: _height,
@@ -43,15 +46,15 @@ class MovieCellView extends StatelessWidget {
           ),
           const SizedBox(width: midSpace),
           Expanded(
-            child: initRightSideOfCell(),
+            child: initRightSideOfCell(ref),
           ),
         ],
       ),
     );
   }
 
-  Widget initRightSideOfCell() {
-    final ValueNotifier<bool> _isFavourite = ValueNotifier<bool>(false);
+  Widget initRightSideOfCell(WidgetRef ref) {
+    
 
     //format date
     DateTime parsedDate = DateTime.parse(movieReleaseDate);
@@ -83,32 +86,31 @@ class MovieCellView extends StatelessWidget {
               IconData(0xe5f9, fontFamily: 'MaterialIcons'),
               color: Colors.amberAccent,
             ),
-            const SizedBox(width: 5.0),
+            const SizedBox(width: 4.0),
             Text(
               formattedRating,
-              style: const TextStyle(fontSize: 20.0, color: redColor),
+              style: const TextStyle(fontSize: 18.0, color: redColor),
             ),
           ],
         ),
-        const SizedBox(height: 5.0),
+        const SizedBox(height: 4.0),
         Text(
           'Original Language: $movieLanguage',
           style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: redColor),
         ),
         
 
-        const SizedBox(height: 5.0),
+        const SizedBox(height: 4.0),
         Text(
-          'Release Date: $formattedDate',
+          'Released: $formattedDate',
           style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: redColor),
         ),
-        const SizedBox(height: 5.0),
-        ValueListenableBuilder<bool>(
-          valueListenable: _isFavourite,
-          builder: (context, isFavourite, child) {
+        Consumer(
+          builder: (context, ref, child) {
+            final isFavourite = ref.watch(watchlistProvider).contains(movieId);
             return FloatingActionButton(
               onPressed: () {
-                _isFavourite.value = !_isFavourite.value;
+                ref.read(watchlistProvider.notifier).toggleWatchlist(movieId);
               },
               backgroundColor: Colors.black,
               foregroundColor: isFavourite ? Colors.red : appBarColor,
@@ -122,7 +124,6 @@ class MovieCellView extends StatelessWidget {
                     ? Colors.red
                     : const Color.fromARGB(255, 98, 98, 98),
               ),
-            
             );
           },
         ),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:movie_app/helpers/constants/constants.dart';
-import 'package:movie_app/screens/movie_list_screen.dart';
-
+import 'package:movie_app/providers/watchlist_provider.dart';
+import '../providers/movie_list_provider.dart';
 class MovieDetailsScreen extends ConsumerWidget {
   const MovieDetailsScreen({super.key});
 
@@ -12,8 +12,8 @@ class MovieDetailsScreen extends ConsumerWidget {
     Size size = MediaQuery.of(context).size;
     final selectedMovie = ref.watch(selectedMovieProvider);
 
-    double _width = size.width;
-    double _height = size.height / 3;
+    double width = size.width;
+    double height = size.height / 3;
 
     double rating =
         double.tryParse(selectedMovie!.voteAverage.toString()) ?? 0.0;
@@ -22,17 +22,6 @@ class MovieDetailsScreen extends ConsumerWidget {
     DateTime parsedDate = DateTime.parse(selectedMovie.releaseDate);
     String formattedDate = DateFormat('yyy').format(parsedDate);
 
-    // ignore: unnecessary_null_comparison
-    if (selectedMovie == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Movie Details'),
-        ),
-        body: const Center(
-          child: Text('No movie selected'),
-        ),
-      );
-    }
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 11, 11, 11),
@@ -53,8 +42,8 @@ class MovieDetailsScreen extends ConsumerWidget {
               children: [
                 Center(
                   child: SizedBox(
-                    width: _width,
-                    height: _height,
+                    width: width,
+                    height: height,
                     child: Image.network(
                       'https://image.tmdb.org/t/p/w500${selectedMovie.posterPath}',
                       fit: BoxFit.cover,
@@ -66,7 +55,7 @@ class MovieDetailsScreen extends ConsumerWidget {
                   left: 0.0,
                   right: 0.0,
                   child: Container(
-                    height: _height / 2.0,
+                    height: height / 2.0,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
@@ -122,10 +111,27 @@ class MovieDetailsScreen extends ConsumerWidget {
                           fontSize: movieVoteCountFontSize,
                           color: Color.fromARGB(255, 197, 197, 197))),
                   const SizedBox(width: 15.0),
-                  const Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                    size: movieFavouriteIconSize,
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final isFavourite = ref.watch(watchlistProvider).contains(selectedMovie.id);
+                      return FloatingActionButton(
+                        onPressed: () {
+                          ref.read(watchlistProvider.notifier).toggleWatchlist(selectedMovie.id);
+                        },
+                        backgroundColor: Colors.black,
+                        foregroundColor: isFavourite ? Colors.red : appBarColor,
+                        shape: const CircleBorder(),
+                        tooltip: 'Add to watchlist',
+                        elevation: 0.0,
+                        highlightElevation: 0.0,
+                        child: Icon(
+                          isFavourite ? Icons.favorite : Icons.favorite_border_outlined,
+                          color: isFavourite
+                              ? Colors.red
+                              : const Color.fromARGB(255, 98, 98, 98),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),

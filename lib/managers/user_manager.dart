@@ -1,6 +1,5 @@
 import '../main.dart';
 import '../models/user.dart';
-import '../managers/authentication_manager.dart';
 
 class UserManager {
 
