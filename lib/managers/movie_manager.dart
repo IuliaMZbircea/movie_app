@@ -4,7 +4,6 @@ import 'package:movie_app/helpers/constants/app_urls.dart';
 import 'package:http/http.dart' as http;
 import 'package:movie_app/managers/hive_manager.dart';
 import 'package:movie_app/models/movie.dart';
-import '../models/movie.dart';
 
 List<Movie> parseMovies(String responseBody) {
   final parsed =

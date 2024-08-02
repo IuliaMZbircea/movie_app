@@ -13,6 +13,8 @@ FirebaseAuth _auth = FirebaseAuth.instance;
 class AuthenticationManager {
   static final UserManager _userManager = UserManager();
 
+  //Google sign in/up
+
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<void> signInWithGoogle(BuildContext context) async {
@@ -47,6 +49,7 @@ class AuthenticationManager {
     }
   }
 
+//Email and password sign in/up
 
   Future logInUser(
     String email,
@@ -88,6 +91,10 @@ class AuthenticationManager {
       var response = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
+      );
+      _userManager.saveLogInUser(
+        response.user?.email ?? '',
+        response.user?.uid ?? '',
       );
       Navigator.pushAndRemoveUntil(
           context,

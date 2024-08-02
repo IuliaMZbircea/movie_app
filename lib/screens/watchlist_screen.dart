@@ -25,7 +25,7 @@ class WatchlistScreen extends ConsumerWidget {
         backgroundColor: Colors.black, 
         title: const Text(
           watchListScreenTitle,
-          style: TextStyle(color: redColor),
+          style: TextStyle(color: redColor, fontSize: titleFontSize,),
         ),
         iconTheme: const IconThemeData(
             color: Colors.white), 

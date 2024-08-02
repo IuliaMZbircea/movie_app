@@ -5,8 +5,8 @@ const double titleFontSize = 30.0;
 const double movieFontSize = 22.0;
 const double logInOrSignUpFontSize = 32.0;
 const double movieTitleFontSize = 34.0;
-const double movieOverviewFontSize = 20.0;
-const double movieRatingFontSize = 22.0;
+const double movieOverviewFontSize = 18.0;
+const double movieRatingFontSize = 20.0;
 const double movieVoteCountFontSize = 12.0;
 const double movieFavouriteIconSize = 28.0;
 

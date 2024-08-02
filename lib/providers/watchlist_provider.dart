@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//keeps track of the added movies
 final watchlistProvider = StateNotifierProvider<WatchlistNotifier, List<int>>(
   (ref) => WatchlistNotifier(),
 );
+
 
 class WatchlistNotifier extends StateNotifier<List<int>> {
   WatchlistNotifier() : super([]) {
@@ -15,6 +17,7 @@ class WatchlistNotifier extends StateNotifier<List<int>> {
     state = prefs.getStringList('watchlist')?.map((id) => int.parse(id)).toList() ?? [];
   }
 
+//adds or removes movies -> saves updates
   void toggleWatchlist(int movieId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (state.contains(movieId)) {
